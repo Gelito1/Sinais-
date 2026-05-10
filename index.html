@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚥 Sinais Do Lucro - Scanner Profissional 🛫</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --card-bg: #1a1510; /* Cor marrom original */
+            --text-gold: #c3a175; /* Dourado original */
+            --signal-pink: #d92d7b;
+            --signal-blue: #0277bd;
+            --signal-purple: #8e24aa;
+            --whatsapp-green: #25D366; 
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            padding-bottom: 150px; /* Margem extra para os botões e WhatsApp não cortarem */
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .header { 
+            font-weight: 900; 
+            font-size: 1.5rem; 
+            margin-bottom: 20px; 
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+        .header span { 
+            background: linear-gradient(90deg, #fff, var(--text-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Botão de Ativação das Notificações */
+        .btn-notify {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        .btn-notify:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Grade de 8 Blocos de Sinais */
+        .signal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .signal-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            animation: fadeIn 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .time-box {
+            background-color: #2b221a;
+            border-radius: 8px;
+            padding: 5px;
+            margin-bottom: 8px;
+        }
+
+        .signal-time {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-gold);
+            margin: 0;
+        }
+
+        .signal-info {
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Configurações visuais dos sinais */
+        .signal-card.azul { border-top: 3px solid var(--signal-blue); }
+        .signal-card.azul .signal-info { background-color: var(--signal-blue); }
+
+        .signal-card.roxo { border-top: 3px solid var(--signal-purple); }
+        .signal-card.roxo .signal-info { background-color: var(--signal-purple); }
+
+        .signal-card.rosa { border-top: 3px solid var(--signal-pink); }
+        .signal-card.rosa .signal-info { background-color: var(--signal-pink); }
+
+        .signal-type { font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .signal-mult { font-size: 14px; font-weight: 800; margin-top: 2px; }
+
+        /* Proteção adaptada */
+        .protection-box {
+            font-size: 9px;
+            color: #a0a0a0;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 8px;
+        }
+        .protection-val {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        /* Container de Ações */
+        .actions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        /* Botão Principal */
+        .btn-main {
+            background: linear-gradient(135deg, #ffd700, #ff8800);
+            color: #000;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 15px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(255, 136, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-main:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(255, 136, 0, 0.5);
+        }
+
+        /* Botão Secundário */
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid var(--text-gold);
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: var(--text-gold);
+            color: #000;
+        }
+
+        /* Bolha de Alerta */
+        #alert-bubble {
+            position: fixed;
+            bottom: -250px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 320px;
+            background: #ffffff;
+            color: #000000;
+            padding: 18px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            z-index: 2000;
+            text-align: center;
+            transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--text-gold);
+        }
+        #alert-bubble.active { bottom: 95px; }
+        .bubble-msg { font-size: 12px; font-weight: 800; margin-bottom: 12px; display: block; color: #000; line-height: 1.4; }
+        .btn-bubble {
+            background: #000000; 
+            color: #ffffff; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 10px;
+            font-weight: 900; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            width: 100%; 
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* WhatsApp Flutuante */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px; 
+            right: 20px; 
+            background-color: var(--whatsapp-green);
+            color: #FFF; 
+            border-radius: 50px; 
+            padding: 12px 18px; 
+            font-weight: 700;
+            z-index: 1000; 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none; 
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">💸 <span>𝐒𝐢𝐧𝐚𝐢𝐬 𝐃𝐨 𝐋𝐮𝐜𝐫𝐨</span> ✈️</div>
+
+    <button class="btn-notify" onclick="requestNotificationPermission()">
+        <i class="fas fa-bell"></i> ATIVAR ALERTAS EM TEMPO REAL
+    </button>
+
+    <div id="signal-grid" class="signal-grid"></div>
+
+    <div class="actions-container">
+        <a href="https://www.megagamelive.com/affiliates/?btag=2577696" target="_blank" style="text-decoration: none;">
+            <button class="btn-main">Criar Conta Nova</button>
+        </a>
+        
+        <a href="https://www.megagamelive.com/affiliates/?btag=2577696" target="_blank" style="text-decoration: none;">
+            <button class="btn-secondary">Abrir site de Apostas</button>
+        </a>
+    </div>
+</div>
+
+<div id="alert-bubble">
+    <span class="bubble-msg">⚠️ OS SINAIS SÓ FUNCIONAM NESTA CASA! CRIE SUA CONTA AGORA:</span>
+    <a href="https://www.megagamelive.com/affiliates/?btag=2577696" target="_blank" style="text-decoration: none;">
+        <button class="btn-bubble">CRIAR CONTA AGORA</button>
+    </a>
+</div>
+
+<a href="https://chat.whatsapp.com/Cbu2Gu2Hcjk19o26UrOjDK" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp" style="margin-right:8px; font-size:18px;"></i>
+    <span>GRUPO VIP</span>
+</a>
+
+<script>
+    let timeLeft = 60;
+    const alertBubble = document.getElementById('alert-bubble');
+
+    // Ciclo da Bolha: Aparece a cada 15 segundos e fica visível por 7 segundos
+    function startBubbleLoop() {
+        setInterval(() => {
+            alertBubble.classList.add('active');
+            setTimeout(() => { 
+                alertBubble.classList.remove('active'); 
+            }, 7000); 
+        }, 15000); 
+    }
+
+    function generateSignals() {
+        const grid = document.getElementById('signal-grid');
+        const now = new Date();
+        grid.innerHTML = '';
+        
+        let nearestTimeStr = "";
+
+        // Gerar 8 Blocos de Sinais
+        for (let i = 0; i < 8; i++) {
+            let rand = Math.random() * 100;
+            let type, colorName, icon, mult, prot;
+
+            // Probabilidades: Azul 44% | Roxo 38% | Rosa 18%
+            if (rand <= 44) { 
+                type = 'azul'; colorName = 'Azul'; icon = '💙';
+                let val = parseFloat((Math.random() * (1.99 - 1.30) + 1.30).toFixed(2));
+                mult = val.toFixed(2) + 'X';
+                
+                // Proteção Inteligente (Menor que o sinal, ex: se for 1.86x a proteção é 1.50x ou 1.60x)
+                let reduction = parseFloat((Math.random() * (0.30 - 0.15) + 0.15).toFixed(2));
+                let protVal = (val - reduction).toFixed(2);
+                prot = (protVal < 1.10 ? "1.10" : protVal) + 'X'; 
+            } else if (rand <= 82) { // 44 + 38 = 82
+                type = 'roxo'; colorName = 'Roxo'; icon = '💜';
+                mult = (Math.random() * (9.99 - 2.00) + 2.00).toFixed(2) + 'X';
+                prot = '2.00X'; 
+            } else { // 18% Rosa
+                type = 'rosa'; colorName = 'Rosa'; icon = '🌹';
+                mult = (Math.random() * (35.00 - 10.00) + 10.00).toFixed(2) + 'X';
+                prot = '8.00X'; 
+            }
+
+            const sigTime = new Date(now.getTime() + (i * 90000) + (Math.random() * 30000));
+            const timeStr = sigTime.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+            
+            if (i === 0) {
+                nearestTimeStr = timeStr; // Guarda o horário do sinal mais próximo
+            }
+
+            grid.innerHTML += `
+                <div class="signal-card ${type}">
+                    <div class="time-box"><p class="signal-time">${timeStr}</p></div>
+                    <div class="signal-info">
+                        <div class="signal-type">${icon} ${colorName}</div>
+                        <div class="signal-mult">${mult}</div>
+                    </div>
+                    <div class="protection-box">
+                        PROTEÇÃO: <span class="protection-val">${prot}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Disparar Notificação Push Real se autorizado
+        sendPushNotification(nearestTimeStr);
+    }
+
+    // Pedir permissão para Notificações Push
+    function requestNotificationPermission() {
+        if ("Notification" in window) {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    alert("Notificações ativadas com sucesso!");
+                    generateSignals();
+                } else {
+                    alert("Por favor, autorize as notificações nas configurações do seu browser.");
+                }
+            });
+        } else {
+            alert("Este browser não suporta notificações de sistema.");
+        }
+    }
+
+    // Disparo da Notificação Push Real
+    function sendPushNotification(minuteStr) {
+        if ("Notification" in window && Notification.permission === "granted") {
+            const options = {
+                body: `Sinais Atualizados aposte agora no minuto ${minuteStr}`,
+                icon: 'https://www.megagamelive.com/favicon.ico',
+                vibrate: [200, 100, 200]
+            };
+            new Notification("🚥 Sinais Do Lucro", options);
+        }
+    }
+
+    // Atualização de varredura nos bastidores a cada 60 segundos (sem mostrar timer)
+    setInterval(() => {
+        generateSignals();
+    }, 60000);
+
+    window.onload = () => { 
+        generateSignals(); 
+        startBubbleLoop(); 
+    };
+</script>
+
+</body>
+</html>
